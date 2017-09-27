@@ -1,0 +1,109 @@
+<h3>学生信息管理</h3>
+<hr>
+<div>
+	<input type="text" name="id" placeholder="输入id找学生" class="studentid">
+	<input type="submit" value="搜索" id="findid">
+</div>
+<div class="table1">
+    <table>
+	     <tbody id="xixi">
+		      <tr>
+			     <th>编号</th>
+			     <th>姓名</th>
+			     <th>性别</th>
+			     <th>生日</th>
+			     <th>操作</th>
+		    </tr>
+		
+	     </tbody>
+   </table>
+</div>
+<hr>
+<button class="add">增加</button>
+<button class="deleteById">删除</button>
+<button class="edit">修改</button>
+<div id="table2">
+	<table>
+		<tbody id="haha">
+			<tr>
+			   <th>编号</th>
+			   <th>姓名</th>
+			   <th>性别</th>
+			   <th>生日</th>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+
+
+<script>
+	$(function(){
+		//$.post()
+		$.getJSON('http://192.168.44.128:8080/students',function(data){
+			console.log(data)
+			data.forEach(function(item){
+				var newTr = '<tr>'
+					+'<td><input type="checkbox" value="'+item.id+'"></td>'
+					+'<td>'+item.name+'</td>'
+					+'<td>'+item.gender+'</td>'
+					+'<td>'+item.birth+'</td>'
+					+'<td>'
+						+'<a href="">修改</a>'
+						+'<a href="">删除</a>'
+					+'</td>'
+					+'</tr>';
+				$('#xixi').append(newTr);
+				
+
+			});
+
+		});
+
+		// $('.deleteById').click(function{
+		// 	var id =$('input:checked').val();
+		// 	$.get('http://127.0.0.1:8080/students/deleteById?id='+id,function(){
+		// 		location.reload();
+		// 	})
+		// })
+
+		// $('.edit').click(function(){
+		// 	//alert(1)
+
+		// })
+		$('#findid').click(function(){
+			//alert(1)
+			var id =$('.studentid').val();
+			console.log(id)
+			$('#haha tr:eq(1)').remove();
+			$.getJSON('http://192.168.44.128:8080/students/findById?id='+id,function(data){
+				console.log(data)
+				$(".table1").css("display","none");
+				$("#table2").css("display","block");
+				data.forEach(function(item){
+					var newhh = '<tr>'
+					+'<td>'+item.id+'</td>'
+					+'<td>'+item.name+'</td>'
+					+'<td>'+item.gender+'</td>'
+					+'<td>'+item.birth+'</td>'
+					// +'<td>'
+					//     +'<a href="">修改</a>'
+					//     +'<a href="">删除</a>'
+					// +'</td>'
+					console.log($('#haha'));
+   
+				    $('#haha').append(newhh)
+				  
+				  
+
+				})
+
+			})
+
+
+		})
+
+
+	});
+
+</script>
